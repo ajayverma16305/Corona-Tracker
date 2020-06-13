@@ -3,6 +3,22 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+ext {
+    // Keystore values
+    key_store_certificate = keystoreProperties['key_store_certificate']
+    key_store_password = keystoreProperties['key_store_password']
+    key_alias = keystoreProperties['key_alias']
+    key_password = keystoreProperties['key_password']
+
+    // API keys
+    data_json = keystoreProperties['data_json']
+    global_stats = keystoreProperties['global_stats']
+}
+
 android {
     compileSdkVersion Integer.parseInt(project.APP_COMPILE_SDK_VERSION)
     buildToolsVersion project.APP_BUILD_TOOL_VERSION
@@ -15,6 +31,20 @@ android {
         versionName project.APP_VERSION_NAME
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Added here because, it holds same API keys for both debug and release builds
+        // Otherwise based on the keys, it can be added to debug or release build types
+        buildConfigField "String", "DATA_JSON", "\"${data_json}\""
+        buildConfigField "String", "GLOBAL_STATS", "\"${global_stats}\""
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(key_store_certificate)
+            storePassword key_store_password
+            keyAlias key_alias
+            keyPassword key_password
+        }
     }
 
     buildTypes {
@@ -27,6 +57,7 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
@@ -114,6 +145,12 @@ dependencies {
     // Glide (Image Loading Library)
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    // Coil Kotlin (Image Loading Library)
+    implementation "com.github.PhilJay:MPAndroidChart:$pie_chart_version"
+    implementation "androidx.preference:preference:$preference_version"
+    implementation "io.coil-kt:coil:$coil_version"
+    implementation "io.coil-kt:coil-svg:$coil_version"
 
     // Timber (Logging Library)
     implementation "com.jakewharton.timber:timber:$timber_version"
