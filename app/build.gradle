@@ -1,0 +1,143 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion Integer.parseInt(project.APP_COMPILE_SDK_VERSION)
+    buildToolsVersion project.APP_BUILD_TOOL_VERSION
+
+    defaultConfig {
+        applicationId "com.meekoo.coronatracker"
+        minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
+        versionCode Integer.parseInt(project.APP_VERSION_CODE)
+        versionName project.APP_VERSION_NAME
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$app_compact_version"
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    testImplementation "junit:junit:$junit_version"
+
+    androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
+
+    // Support
+    implementation "androidx.annotation:annotation:$support_version"
+    implementation "androidx.recyclerview:recyclerview:$support_version"
+    implementation "androidx.cardview:cardview:$support_version"
+    implementation "androidx.legacy:legacy-support-core-utils:$support_version"
+    implementation "androidx.fragment:fragment:$fragment_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+    implementation "androidx.activity:activity-ktx:$activity_version"
+
+    // Design
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation "com.google.android.material:material:$material_version"
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation "androidx.room:room-testing:$room_version"
+
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    // Retrofit (REST API Library)
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:retrofit-mock:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_logging_interceptor_versions"
+
+    // Dagger (Dependency Injection)
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    // Mockito
+    implementation "org.mockito:mockito-core:$mockito_version"
+    implementation "org.mockito:mockito-all:$mockito_all_version"
+    implementation "org.mockito:mockito-android:$mockito_android_version"
+    implementation "com.linkedin.dexmaker:dexmaker-mockito:$dexmaker_version"
+
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    // Glide (Image Loading Library)
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    // Timber (Logging Library)
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    // Rx Java/Android
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava2_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
+
+    // WorkManager (Background Task)
+    implementation "androidx.work:work-runtime:$work_version"
+    implementation "androidx.work:work-testing:$work_version"
+    // implementation "androidx.work:work-firebase:$work_version"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
+    // Firebase Database
+    implementation "com.google.firebase:firebase-database-ktx:$firebase_database_version"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-runtime:$navigation_version"
+    implementation "androidx.navigation:navigation-runtime-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-fragment:$navigation_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
+}
+apply plugin: 'com.google.gms.google-services'
